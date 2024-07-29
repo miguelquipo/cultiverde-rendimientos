@@ -1,18 +1,34 @@
 <?php
-// Realiza la conexión a la base de datos (cambia estos valores por los tuyos)
-include '../db.php';
+// Conexión a SQL Server
+$serverName = "localhost\\SQLEXPRESS";
+$uid = "sa";
+$pwd = "faber33";
+$databaseName = "dbrendimientos";
+$connectionInfo = array(
+    "UID" => $uid,
+    "PWD" => $pwd,
+    "Database" => $databaseName,
+    "TrustServerCertificate" => true,
+    "Encrypt" => false
+);
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+
+if (!$conn) {
+    die(print_r(sqlsrv_errors(), true));
+}
 
 // Define el intervalo de tiempo entre ejecuciones (en segundos)
 $intervaloEjecucion = 5; // 5 segundos (ajústalo según tus necesidades)
 
+// Obtener la fecha y hora actual
+$currentDateTime = new DateTime();
+$currentDateTime->setTimezone(new DateTimeZone('America/Chicago')); // Cambia a tu zona horaria deseada
+$today = $currentDateTime->format('Y-m-d');
+
 // Bucle para la ejecución continua en segundo plano
 while (true) {
-    // Obtener la fecha y hora actual
-    $currentDateTime = new DateTime();
-    $currentDateTime->setTimezone(new DateTimeZone('America/Chicago')); // Cambia a tu zona horaria deseada
-
     // Obtener la fecha formateada
-    $formattedDate = $currentDateTime->format('Y-m-d');
+    $formattedDate = $today;
 
     // Obtener la hora del último registro con id_tipo_ingreso = 3 para el día actual
     $stmtSelectLastType3 = sqlsrv_query($conn, "SELECT TOP 1 hora_registro FROM rendimiento WHERE id_tipo_ingreso = 3 AND CONVERT(DATE, fecha_registro) = ? ORDER BY fecha_registro DESC, hora_registro DESC", array($formattedDate));
@@ -53,7 +69,7 @@ while (true) {
     $stmtUltimoRango = sqlsrv_query($conn, "SELECT MAX(CASE WHEN id_tipo_ingreso = 2 THEN hora_registro END) AS hora_inicio,
                                               MAX(CASE WHEN id_tipo_ingreso = 3 THEN hora_registro END) AS hora_fin
                                         FROM rendimiento
-                                        WHERE CAST(fecha_registro AS DATE) = CAST(GETDATE() AS DATE)");
+                                        WHERE CONVERT(DATE, fecha_registro) = ?", array($formattedDate));
     $resultUltimoRango = sqlsrv_fetch_array($stmtUltimoRango);
     $ultimaHoraRegistroInicio = null;
     $ultimaHoraRegistroFin = null;
@@ -74,23 +90,26 @@ while (true) {
     // Determinar la última hora de registro según la última hora de inicio o fin obtenida
     $ultimaHoraRegistro = ($ultimaHoraRegistroInicio !== null) ? $ultimaHoraRegistroInicio : $ultimaHoraRegistroFin;
 
-    // Buscar ingresos con hora mayor a la hora fin actual
+    // Buscar ingresos con hora mayor a la hora fin actual y pertenecientes al día actual
     $stmtIngresosFueraDeRango = sqlsrv_query($conn, "SELECT id_tipo_ingreso, hora_registro
-                                                        FROM rendimiento
-                                                        WHERE id_tipo_ingreso = 1
-                                                        AND hora_registro > ?", array($ultimaHoraRegistroFin->format('Y-m-d H:i:s')));
+                                                     FROM rendimiento
+                                                     WHERE id_tipo_ingreso = 1
+                                                     AND CONVERT(DATE, fecha_registro) = ?
+                                                     AND hora_registro > ?", array($formattedDate, $ultimaHoraRegistroFin->format('H:i:s')));
+
     while ($rowIngresoFueraDeRango = sqlsrv_fetch_array($stmtIngresosFueraDeRango, SQLSRV_FETCH_ASSOC)) {
         $idTipoIngreso = $rowIngresoFueraDeRango['id_tipo_ingreso'];
         $horaRegistro = new DateTime($rowIngresoFueraDeRango['hora_registro']->format('Y-m-d H:i:s'));
 
-        // Actualizar ingresos fuera de rango
+        // Actualizar ingresos fuera de rango al día actual
         $horaAleatoria = generarHoraAleatoriaEnRango($ultimaHoraRegistroInicio, $ultimaHoraRegistroFin);
 
         $stmtActualizarIngreso = sqlsrv_query($conn, "UPDATE rendimiento
-                                                        SET id_tipo_ingreso = 5,
-                                                            hora_registro = ?
-                                                        WHERE id_tipo_ingreso = 1
-                                                        AND hora_registro > ?", array($horaAleatoria, $ultimaHoraRegistroFin->format('Y-m-d H:i:s')));
+                                                     SET id_tipo_ingreso = 5,
+                                                         hora_registro = ?
+                                                     WHERE id_tipo_ingreso = 1
+                                                     AND CONVERT(DATE, fecha_registro) = ?
+                                                     AND hora_registro > ?", array($horaAleatoria, $today, $ultimaHoraRegistroFin->format('H:i:s')));
     }
 
     // Dormir durante el intervalo definido
@@ -102,7 +121,7 @@ sqlsrv_close($conn);
 
 function generarHoraAleatoriaEnRango($horaInicio, $horaFin) {
     // Obtener la diferencia en minutos entre la horaInicio y la horaFin
-    $diferenciaMinutos = $horaInicio->diff($horaFin)->format('%i');
+    $diferenciaMinutos = ($horaInicio->diff($horaFin)->h * 60) + $horaInicio->diff($horaFin)->i;
 
     // Generar una hora aleatoria dentro del rango
     $horaAleatoria = clone $horaInicio; // Iniciar con la horaInicio
