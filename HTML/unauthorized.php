@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../A-IMG/logo_prueba.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <title>Access Denied</title>
     <style>
         body {
@@ -72,15 +74,55 @@
         .login-button:hover {
             background-color: #388E3C; /* Darker green */
         }
+        .return-container {
+            position: absolute;
+            top: 10px;
+            left: 30px;
+        }
+        .return-button {
+            display:block;
+            flex-direction:column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none; /* Eliminar subrayado */
+            color: rgb(51, 56, 210); 
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .return-button i {
+            font-size: 30px; /* Reducir tamaño del icono */
+            margin-bottom: 10px;
+        }
+
+        .return-button:hover {
+            background-color: rgba(107, 136, 131, 0.7); /* Color de fondo semi-transparente al hacer hover */
+            transform: scale(1.05); /* Aumentar tamaño al hacer hover */
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .return-button:hover span {
+            backdrop-filter: none;
+            filter: none;
+        }
     </style>
 </head>
 <body>
+<div class="return-container">
+    <a href="../index.php" class="return-button">
+      <i class="fas fa-arrow-left"></i>
+    </a>
+  </div>
     <div class="container">
         <div class="logo-name-container">
             <img src="../A-IMG/rotate_flor.png" alt="Logo" class="logo">
             <img src="../A-IMG/nombre.png" alt="Nombre" class="name">
         </div>
-        <div class="message">La página a la que estás intentando acceder no está disponible para ti en este momento.</div>
+        <div class="message">La página a la que estás intentando acceder no está disponible para ti en este momento, retroceda la pagina o inicia sesión con otra cuenta.</div>
         <a href="../PHP/Usuarios/login.php" class="login-button">Iniciar sesión</a>
     </div>
 </body>

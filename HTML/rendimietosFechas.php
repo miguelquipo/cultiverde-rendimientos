@@ -18,12 +18,52 @@ checkAccess([1]);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
+    <style>
+      .logout-button {
+    position: fixed;
+    bottom: 70px; /* Ajusta la distancia desde la parte inferior */
+    right: 20px;  /* Ajusta la distancia desde la parte derecha */
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 24px;
+    color: #333;
+    z-index: 9999; /* Asegúrate de que el botón esté sobre otros elementos */
+}
+
+.logout-button i {
+    margin: 0;
+}
+
+.logout-button:hover {
+    background-color: #ddd;
+}
+
+.logout-button:hover::after {
+    content: "Cerrar sesión";
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 9999;
+}
+
+    </style>
+  </head>
 <body>
 
     <img src="../A-IMG/logo_prueba.png" alt="Logo de la empresa" class="logo">
-    <a href="../PHP/Usuarios/logout.php">Cerrar sesión</a>
-
+    <button class="logout-button" onclick="window.location.href='/cultiverde-rendimientos/PHP/Usuarios/logout.php';">
+        <i class="fas fa-door-open"></i>
+    </button>
     <div class="return-container">
       <a href="../index.php" class="return-button"> <!-- Enlace a la página anterior -->
         <i class="fas fa-arrow-left"></i>        

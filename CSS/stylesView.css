@@ -50,10 +50,11 @@ body {
 }
 
 .return-button:hover {
-  background-color: rgba(60, 150, 87, 0.7); /* Color de fondo semi-transparente al hacer hover */
+  background-color: rgba(107, 136, 131, 0.7); /* Color de fondo semi-transparente al hacer hover */
   transform: scale(1.05); /* Aumentar tamaño al hacer hover */
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
 }
+
 
 .return-button:hover span {
   backdrop-filter: none;
