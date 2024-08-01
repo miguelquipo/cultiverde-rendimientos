@@ -17,7 +17,7 @@ if (isset($_POST['product-name'], $_POST['product-rendimiento-hora'])) {
             exit();
         } else {
             echo 'Se ha ingresado correctamente';
-            header("Location: ../HTML/ingProductos1.html"); // Redirigir con mensaje de éxito
+            header("Location: ../HTML/ingProductos1.php"); // Redirigir con mensaje de éxito
             exit();
         }
     } else {
@@ -31,7 +31,7 @@ if (isset($_POST['product-name'], $_POST['product-rendimiento-hora'])) {
             exit();
         } else {
             echo 'Se ha actualizado correctamente';
-            header("Location: ../HTML/ingProductos1.html"); // Redirigir con mensaje de éxito
+            header("Location: ../HTML/ingProductos1.php"); // Redirigir con mensaje de éxito
             exit();
         }
     }

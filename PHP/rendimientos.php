@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
         $idTrabajador = $resultTrabajador['id_trabajador'];
     } else {
         // Manejar el caso en que el trabajador no exista en la base de datos
-        header("Location: ../HTML/rendimientos.html?success=false&error=no_trabajador");
+        header("Location: ../HTML/rendimientos.php?success=false&error=no_trabajador");
         exit();
     }
 
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
 
     // Si no hay registros de inicio y fin, redirigir con un mensaje de error
     if ($ultimaHoraRegistroInicio === null && $ultimaHoraRegistroFin === null) {
-        header("Location: ../HTML/rendimientos.html?success=false&error=no_registro");
+        header("Location: ../HTML/rendimientos.php?success=false&error=no_registro");
         exit();
     }
 
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
     $rendimientoPorHora = obtenerRendimientoPorHora($conn, $codigoProducto);
     if ($rendimientoPorHora == 0) {
         // Si no se encuentra el rendimiento del producto, manejar el error
-        header("Location: ../HTML/rendimientos.html?success=false&error=no_producto");
+        header("Location: ../HTML/rendimientos.php?success=false&error=no_producto");
         exit();
     }
 
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
     $sql = "SELECT COUNT(*) AS num_registros
             FROM rendimiento
             WHERE id_trabajador = ? AND hora_registro >= ? AND hora_registro <= ?";
-    $params = array($idTrabajador, $ultimaHoraRegistroInicio->format('Y-m-d H:i:s'), $ultimaHoraRegistroFin->format('Y-m-d H:i:s'));
+    $params = array($idTrabajador, $ultimaHoraRegistroInicio ? $ultimaHoraRegistroInicio->format('Y-m-d H:i:s') : '1900-01-01 00:00:00', $ultimaHoraRegistroFin ? $ultimaHoraRegistroFin->format('Y-m-d H:i:s') : '2100-01-01 23:59:59');
     $stmtValidarRango = sqlsrv_query($conn, $sql, $params);
     $resultValidarRango = sqlsrv_fetch_array($stmtValidarRango);
 
@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
         $ultimaHoraRegistro = $insertDateTime;
     }
 
-    header("Location: ../HTML/rendimientos.html?success=true");
+    header("Location: ../HTML/rendimientos.php?success=true");
     exit();
 }
 

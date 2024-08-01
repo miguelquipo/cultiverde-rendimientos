@@ -246,7 +246,7 @@ checkAccess([1, 2]);
 
       setTimeout(() => {
         Swal.close();
-        window.location.href = 'rendimientos.html';
+        window.location.href = 'rendimientos.php';
       }, 1000);
     } else {
       Swal.fire({
@@ -255,7 +255,7 @@ checkAccess([1, 2]);
         icon: 'error',
         confirmButtonText: 'OK'
       }).then(() => {
-        window.location.href = 'rendimientos.html';
+        window.location.href = 'rendimientos.php';
       });
     }
   }

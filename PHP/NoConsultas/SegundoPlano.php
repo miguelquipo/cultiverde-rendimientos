@@ -101,15 +101,17 @@ while (true) {
         $idTipoIngreso = $rowIngresoFueraDeRango['id_tipo_ingreso'];
         $horaRegistro = new DateTime($rowIngresoFueraDeRango['hora_registro']->format('Y-m-d H:i:s'));
 
-        // Actualizar ingresos fuera de rango al día actual
-        $horaAleatoria = generarHoraAleatoriaEnRango($ultimaHoraRegistroInicio, $ultimaHoraRegistroFin);
+        // Verificar si la fecha_registro coincide con la fecha actual antes de actualizar
+        if ($horaRegistro->format('Y-m-d') === $formattedDate) {
+            $horaAleatoria = generarHoraAleatoriaEnRango($ultimaHoraRegistroInicio, $ultimaHoraRegistroFin);
 
-        $stmtActualizarIngreso = sqlsrv_query($conn, "UPDATE rendimiento
-                                                     SET id_tipo_ingreso = 5,
-                                                         hora_registro = ?
-                                                     WHERE id_tipo_ingreso = 1
-                                                     AND CONVERT(DATE, fecha_registro) = ?
-                                                     AND hora_registro > ?", array($horaAleatoria, $today, $ultimaHoraRegistroFin->format('H:i:s')));
+            $stmtActualizarIngreso = sqlsrv_query($conn, "UPDATE rendimiento
+                                                         SET id_tipo_ingreso = 5,
+                                                             hora_registro = ?
+                                                         WHERE id_tipo_ingreso = 1
+                                                         AND CONVERT(DATE, fecha_registro) = ?
+                                                         AND hora_registro > ?", array($horaAleatoria, $today, $ultimaHoraRegistroFin->format('H:i:s')));
+        }
     }
 
     // Dormir durante el intervalo definido

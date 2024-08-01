@@ -40,7 +40,7 @@ if ($row_count === true) {
         echo 'Hubo un error al actualizar el Trabajador';
         exit();
     } else {
-        header("Location: ../HTML/ingPersonal.html"); // Redirige a ingPersonal.html si la actualización es exitosa
+        header("Location: ../HTML/ingPersonal.php"); // Redirige a ingPersonal.html si la actualización es exitosa
         exit();
     }
 } else {
@@ -53,7 +53,7 @@ if ($row_count === true) {
         echo 'Hubo un error al ingresar el Trabajador';
         exit();
     } else {
-        header("Location: ../HTML/ingPersonal.html"); // Redirige a ingPersonal.html si la inserción es exitosa
+        header("Location: ../HTML/ingPersonal.php"); // Redirige a ingPersonal.html si la inserción es exitosa
         exit();
     }
 }
