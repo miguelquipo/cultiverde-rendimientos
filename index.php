@@ -1,3 +1,11 @@
+<?php
+include './PHP/Usuarios/check_access.php';
+
+// Asegura que solo los usuarios con role_id 2 (editor) o 1 (admin) puedan acceder
+checkAccess([1]);
+
+// Código para mostrar la página
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,27 +20,27 @@
 </head>
   <body>
       <img src="./A-IMG/logo_prueba.png" alt="Logo de la empresa" class="logo">
-    
+      <a href="./PHP/Usuarios/logout.php">Cerrar sesión</a>
       <div class="menu">
         
         <div class="bottom-row">
-          <a href="./HTML/ingProductos1.html" class="menu-item"> <!-- Enlace a ingProductos1.html -->
+          <a href="./HTML/ingProductos1.php" class="menu-item"> <!-- Enlace a ingProductos1.html -->
             <i class="fas fa-box"></i>
             <span>Productos</span>
           </a>
-          <a href="./HTML/ingPersonal.html" class="menu-item"> <!-- Enlace a ingPersonal.html -->
+          <a href="./HTML/ingPersonal.php" class="menu-item"> <!-- Enlace a ingPersonal.html -->
               <i class="fas fa-users"></i>
               <span>Personas</span>
           </a>
-          <a href="./HTML/rendimientos.html" class="menu-item"> <!-- Enlace a rendimientos.html -->
+          <a href="./HTML/rendimientos.php" class="menu-item"> <!-- Enlace a rendimientos.html -->
             <i class="fas fa-file"></i>
             <span>Rendimientos</span>
           </a>
-          <a href="./HTML/rendimietosFechas.html" class="menu-item"> <!-- Enlace a rendimietosFechas.html -->
+          <a href="./HTML/rendimietosFechas.php" class="menu-item"> <!-- Enlace a rendimietosFechas.html -->
             <i class="far fa-calendar-alt"></i>
             <span>Fechas Rendimieto</span>
           </a>
-          <a href="./HTML/DesempeñoHora.html" class="menu-item"> <!-- Enlace a DesempeñoHora.html -->
+          <a href="./HTML/DesempeñoHora.php" class="menu-item"> <!-- Enlace a DesempeñoHora.html -->
             <i class="fas fa-medal"></i>
             <span>Desempeño</span>
           </a>

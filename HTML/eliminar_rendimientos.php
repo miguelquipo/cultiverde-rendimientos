@@ -1,3 +1,11 @@
+<?php
+include '../PHP/Usuarios/check_access.php';
+
+// Asegura que solo los usuarios con role_id 2 (editor) o 1 (admin) puedan acceder
+checkAccess([1, 2]);
+
+// Código para mostrar la página
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,12 +25,14 @@
 </head>
 <body>
   <img src="../A-IMG/logo_prueba.png" alt="Logo de la empresa" class="logo">
+  <a href="../PHP/Usuarios/logout.php">Cerrar sesión</a>
 
-  <!--<div class="return-container">
-    <a href="index.html" class="return-button">
+
+  <div class="return-container">
+    <a href="./rendimientos.php" class="return-button">
       <i class="fas fa-arrow-left"></i>        
     </a>
-  </div>-->
+  </div>
 
   <div class="container">
     <h1>Eliminar Rendimientos por Formulario</h1>

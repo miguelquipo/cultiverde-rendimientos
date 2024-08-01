@@ -3,7 +3,7 @@
 $serverName = "localhost\\SQLEXPRESS";
 $uid = "sa";
 $pwd = "faber33";
-$databaseName = "dbrendimientos";
+$databaseName = "dbrendimientos31-07-2024";
 $connectionInfo = array(
     "UID" => $uid,
     "PWD" => $pwd,
