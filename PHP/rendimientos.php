@@ -25,9 +25,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
 
     // Obtener el último rango de horas registrado (inicio y fin)
     $sql = "SELECT MAX(CASE WHEN id_tipo_ingreso = 2 THEN hora_registro END) AS hora_inicio,
-                    MAX(CASE WHEN id_tipo_ingreso = 3 THEN hora_registro END) AS hora_fin
-            FROM rendimiento
-            WHERE CAST(fecha_registro AS DATE) = CAST(GETDATE() AS DATE)";
+                   MAX(CASE WHEN id_tipo_ingreso = 3 THEN hora_registro END) AS hora_fin
+           FROM rendimiento
+           WHERE CAST(fecha_registro AS DATE) = CAST(GETDATE() AS DATE)";
     $stmtUltimoRango = sqlsrv_query($conn, $sql);
     $rowUltimoRango = sqlsrv_fetch_array($stmtUltimoRango);
 
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
     $sql = "SELECT COUNT(*) AS num_registros
             FROM rendimiento
             WHERE id_trabajador = ? AND hora_registro >= ? AND hora_registro <= ?";
-    $params = array($idTrabajador, $ultimaHoraRegistroInicio ? $ultimaHoraRegistroInicio->format('Y-m-d H:i:s') : '1900-01-01 00:00:00', $ultimaHoraRegistroFin ? $ultimaHoraRegistroFin->format('Y-m-d H:i:s') : '2100-01-01 23:59:59');
+    $params = array($idTrabajador, $ultimaHoraRegistroInicio->format('Y-m-d H:i:s'), $ultimaHoraRegistroFin->format('Y-m-d H:i:s'));
     $stmtValidarRango = sqlsrv_query($conn, $sql, $params);
     $resultValidarRango = sqlsrv_fetch_array($stmtValidarRango);
 
@@ -84,12 +84,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
         }
     } else {
         // Si no hay registros en el rango, iniciar desde la última hora de inicio o fin
-        $ultimaHoraRegistro = ($ultimaHoraRegistroInicio !== null) ? $ultimaHoraRegistroInicio : $ultimaHoraRegistroFin;
+        if ($ultimaHoraRegistroInicio !== null) {
+            $ultimaHoraRegistro = $ultimaHoraRegistroInicio;
+        } elseif ($ultimaHoraRegistroFin !== null) {
+            $ultimaHoraRegistro = $ultimaHoraRegistroFin;
+        } else {
+            // Si no hay ni inicio ni fin, se puede redirigir o manejar el error
+            header("Location: ../HTML/rendimientos.php?success=false&error=no_registro");
+            exit();
+        }
     }
 
     // Insertar los registros en la tabla rendimiento
     for ($i = 0; $i < $cantidadVeces; $i++) {
-        $insertDateTime = clone $ultimaHoraRegistro;
+        // Obtener la fecha y hora actual
+        $insertDateTime = new DateTime("now", new DateTimeZone("America/Chicago"));
         $insertDateTime->add(new DateInterval('PT' . round($promedioIngresoPorHora * $i) . 'S'));
         $formattedDateTime = $insertDateTime->format('Y-m-d H:i:s');
 
@@ -97,6 +106,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
                 VALUES (1, ?, ?, ?, ?, 1)";
         $params = array($formattedDateTime, $codigoProducto, $idTrabajador, $formattedDateTime);
         $stmtInsert = sqlsrv_query($conn, $sql, $params);
+
+        // Verificar si la inserción fue exitosa
+        if ($stmtInsert === false) {
+            die(print_r(sqlsrv_errors(), true));
+        }
 
         // Actualizar la última hora de registro para la siguiente inserción
         $ultimaHoraRegistro = $insertDateTime;
