@@ -1,0 +1,180 @@
+<?php
+include './PHP/Usuarios/check_access.php';
+
+// Asegura que solo los usuarios con role_id 2 (editor) o 1 (admin) puedan acceder
+checkAccess([1, 2, 3]);
+
+// Código para mostrar la página
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cultiverde - Menu</title>
+    <link rel="stylesheet" href="./CSS/stylesPMenu.css">
+    <link rel="icon" href="./A-IMG/logo_prueba.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Agrega esto en la sección <head> de tus páginas HTML -->
+    <script src="./SCRIPTS/fullscreen.js"></script>
+    <style>
+        .logout-button {
+            position: fixed;
+            bottom: 70px;
+            /* Ajusta la distancia desde la parte inferior */
+            right: 20px;
+            /* Ajusta la distancia desde la parte derecha */
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-size: 24px;
+            color: #333;
+            z-index: 9999;
+            /* Asegúrate de que el botón esté sobre otros elementos */
+        }
+
+        .logout-button i {
+            margin: 0;
+        }
+
+        .logout-button:hover {
+            background-color: #ddd;
+        }
+
+        .logout-button:hover::after {
+            content: "Cerrar sesión";
+            position: absolute;
+            bottom: 40px;
+            right: 0;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="./A-IMG/logo_prueba.png" alt="Logo de la empresa" class="logo">
+    <button class="logout-button" onclick="window.location.href='/cultiverde-rendimientos/PHP/Usuarios/logout.php';">
+        <i class="fas fa-door-open"></i>
+    </button>
+    <div class="menu">
+
+        <div class="bottom-row">
+            <a href="./HTML/ingProductos1.php" class="menu-item"> <!-- Enlace a ingProductos1.html -->
+                <i class="fas fa-box"></i>
+                <span>Productos</span>
+            </a>
+            <a href="./HTML/ingPersonal.php" class="menu-item"> <!-- Enlace a ingPersonal.html -->
+                <i class="fas fa-users"></i>
+                <span>Personas</span>
+            </a>
+            <a href="./HTML/rendimientos.php" class="menu-item"> <!-- Enlace a rendimientos.html -->
+                <i class="fas fa-file"></i>
+                <span>Rendimientos</span>
+            </a>
+            <a href="./HTML/rendimietosFechas.php" class="menu-item"> <!-- Enlace a rendimietosFechas.html -->
+                <i class="far fa-calendar-alt"></i>
+                <span>Fechas Rendimieto</span>
+            </a>
+            <a href="./HTML/DesempeñoHora.php" class="menu-item"> <!-- Enlace a DesempeñoHora.html -->
+                <i class="fas fa-medal"></i>
+                <span>Desempeño</span>
+            </a>
+
+
+
+        </div>
+
+
+        <!--  <div>
+          <a href="paginaeditar.html" class="menu-item"> 
+            <i class="fas fa-edit"></i>
+            <span>Editar</span>
+          </a>
+        </div> -->
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const menuLink = localStorage.getItem('menuLink');
+                if (menuLink) {
+                    const menuItem = document.querySelector('.menu-item[href="rendimientos.html"]');
+                    menuItem.href = menuLink;
+                }
+            });
+        </script>
+    </div>
+    <footer class="version-tag">
+        <p>Versión 2.2.0</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Recupera el estado de pantalla completa desde localStorage
+            const isFullscreen = JSON.parse(localStorage.getItem('isFullscreen')) || false;
+
+            // Aplica el estado de pantalla completa al cargar la página
+            if (isFullscreen) {
+                enterFullscreen();
+            }
+        });
+
+        // Función para cambiar el estado de pantalla completa (puede estar en un archivo compartido)
+        function enterFullscreen() {
+            document.documentElement.requestFullscreen();
+        }
+
+        // Función para salir del modo pantalla completa (puede estar en un archivo compartido)
+        function exitFullscreen() {
+            document.exitFullscreen();
+        }
+
+    </script>
+    <!--ejecucion segundo plano-->
+    <script>
+
+        window.onload = function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "./PHP/NoConsultas/SegundoPlano.php", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200)
+                    console.console.log("El archivo php se ejecuto");
+            }
+            xhr.send();
+        }
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Consulta el estado de inicio desde el script PHP
+            fetch('../PHP/validar_inicio.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.iniciado) {
+                        // Si se ha iniciado, mantiene la ruta original
+                        console.log('Actividades iniciadas. Manteniendo ruta.');
+                    } else {
+                        // Si no se ha iniciado, redirige a la página de espera
+                        const menuLink = document.querySelector('.menu-item[href="./HTML/rendimientos.php"]');
+                        if (menuLink) {
+                            menuLink.href = './PAGES/WhaitingPage.php';
+                        }
+                        console.log('No se han iniciado las actividades. Redirigiendo.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al verificar el estado de inicio:', error);
+                });
+        });
+    </script>
+
+</body>
+
+</html>
