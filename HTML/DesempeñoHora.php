@@ -1,14 +1,11 @@
 <?php
 include '../PHP/Usuarios/check_access.php';
-
 // Asegura que solo los usuarios con role_id 2 (editor) o 1 (admin) puedan acceder
 checkAccess([1, 2, 3]);
-
 // Código para mostrar la página
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,29 +62,21 @@ checkAccess([1, 2, 3]);
     white-space: nowrap;
     z-index: 9999;
 }
+
   </style>
 </head>
-
 </head>
-
 <body>
-
-
   <div id="infoDiv"></div>
-
   <img src="../A-IMG/logo_prueba.png" alt="Logo de la empresa" class="logo">
   <button class="logout-button" onclick="window.location.href='/cultiverde-rendimientos/PHP/Usuarios/logout.php';">
         <i class="fas fa-door-open"></i>
     </button>
-
   <div class="return-container">
     <a href="../index.php" class="return-button">
       <i class="fas fa-arrow-left"></i>
     </a>
   </div>
-
-
-
   <section class="py-0 px-0">
     <div id="porcentajeDiv">
       <!-- Porcentaje hora Actual -->
@@ -116,10 +105,7 @@ checkAccess([1, 2, 3]);
                 <p class="desempeno" style="color: #05a602; font-weight: bold; font-size: 40px;">DESEMPEÑO</p>
               </tr>
               <tr>
-                <!-- <th data-field="Img" data-sortable="true">Img</th>
-            <th data-field="ID" data-sortable="true">Id</th>
-            <th data-field="Producto" data-sortable="true">Prod</th>
-            <th data-field="Porcentaje" data-sortable="true">Porcentaje</th>-->
+
               </tr>
             </thead>
             <tbody id="desempeno-body"></tbody>
@@ -135,10 +121,7 @@ checkAccess([1, 2, 3]);
                 <p class="bueno" style="color: rgb(51, 56, 210); font-weight: bold; font-size: 40px;">BUENO</p>
               </tr>
               <tr>
-                <!-- <th data-field="Img" data-sortable="true">Img</th>
-            <th data-field="ID" data-sortable="true">Id</th>
-            <th data-field="Producto" data-sortable="true">Prod</th>
-            <th data-field="Porcentaje" data-sortable="true">Porcentaje</th>-->
+
               </tr>
             </thead>
             <tbody id="bueno-body"></tbody>
@@ -154,10 +137,7 @@ checkAccess([1, 2, 3]);
                 <p class="observacion" style="color: #ff2600; font-weight: bold; font-size: 40px;">OBSERVACIÓN</p>
               </tr>
               <tr>
-                <!-- <th data-field="Img" data-sortable="true">Img</th>
-            <th data-field="ID" data-sortable="true">Id</th>
-            <th data-field="Producto" data-sortable="true">Prod</th>
-            <th data-field="Porcentaje" data-sortable="true">Porcentaje</th>-->
+
               </tr>
             </thead>
             <tbody id="observacion-body"></tbody>
@@ -178,26 +158,15 @@ checkAccess([1, 2, 3]);
             </label>
             <span for="nightModeSwitch">Modo Nocturno</span>
           </div><br>
-
-          <span id="autoSlideStatus">Hora de visualizacion:</span>
-          <div class="duration-container">
-            <select id="selectRangoHora" class="form-select" onchange="seleccionarOpcion()">
-              <!-- Las opciones se generarán dinámicamente aquí -->
-            </select>
-          </div>
         </div>
       </div>
     </div>
   </section>
-
   <footer>
     <div>
       <p>Copyright &copy; CULTIVERDE 2024 Derechos reservados</p>
     </div>
   </footer>
-
-
-
   <!-- Mostrar desempeño-->
   <script>
     document.addEventListener('DOMContentLoaded', async function () {
@@ -235,9 +204,7 @@ checkAccess([1, 2, 3]);
         row.innerHTML = `
        <td><img src="${trabajador.imgen ? `../A-IMG/imgUsers/${trabajador.imgen}` : '../A-IMG/user.png'}" class="user"></td>
         <td style="font-size:25px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
-        <td style="font-size:25px;">${trabajador.producto_nombre}</td>
-        <td><div style="font-weight: bold;color: White;background-color: #05a602; font-size:35px; border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>
-    `;
+        <td><div style="font-weight: bold;color: White;background-color: #05a602; font-size:35px; border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
         desempenoBody.appendChild(row);
       });
     }
@@ -279,26 +246,21 @@ checkAccess([1, 2, 3]);
         row.innerHTML = `
         <td><img src="${trabajador.imgen ? `../A-IMG/imgUsers/${trabajador.imgen}` : '../A-IMG/user.png'}" class="user"></td>
         <td style="font-size:25px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
-        <td style="font-size:25px;">${trabajador.producto_nombre}</td>
-        <td><div style="background-color: rgb(51, 56, 210); font-weight: bold;color: White;font-size:35px;border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>
-    `;
+        <td><div style="background-color: rgb(51, 56, 210); font-weight: bold;color: White;font-size:35px;border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
         buenoBody.appendChild(row);
       });
     }
-
   </script>
   <!-- Mostrar observacion-->
   <script>
     document.addEventListener('DOMContentLoaded', async function () {
       // Obtener datos iniciales
       await obtenerDatosObservacion();
-
       // Actualizar los datos cada cierto intervalo (por ejemplo, cada 5 minutos)
       setInterval(async function () {
         await obtenerDatosObservacion();
       }, 1000); // 1000 milisegundos = 1 segundo
     });
-
     async function obtenerDatosObservacion() {
       try {
         let url = '../PHP/view_observacion_hora.php';
@@ -310,56 +272,47 @@ checkAccess([1, 2, 3]);
         // Puedes mostrar un mensaje de error al usuario aquí
       }
     }
-
     function mostrarDatosObservacion(data) {
-
       const observacionBody = document.getElementById('observacion-body');
-
       // Limpiamos cualquier contenido previo en el cuerpo de la tabla
       observacionBody.innerHTML = '';
-
       // Iteramos sobre los datos y creamos las filas de la tabla
       data.forEach(trabajador => {
         const row = document.createElement('tr');
         row.innerHTML = `
         <td><img src="${trabajador.imgen ? `../A-IMG/imgUsers/${trabajador.imgen}` : '../A-IMG/user.png'}" class="user"></td>
         <td style="font-size:25px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
-        <td style="font-size:25px;">${trabajador.producto_nombre}</td>
-        <td><div style="background-color: #ff2600;font-weight: bold;font-size:35px; color: White;border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>
-    `;
+        <td><div style="background-color: #ff2600;font-weight: bold;font-size:35px; color: White;border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
         observacionBody.appendChild(row);
       });
-
     }
-
   </script>
   <!-- Reloj dinámico con redirección -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Crear el elemento para mostrar el reloj
-      const clockElement = document.createElement('div');
-      clockElement.id = 'clock';
-      clockElement.classList.add('clock');
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Crear el elemento para mostrar el reloj
+    const clockElement = document.createElement('div');
+    clockElement.id = 'clock';
+    clockElement.classList.add('clock');
+    // Añadir el elemento al cuerpo del documento
+    document.body.appendChild(clockElement);
 
-      // Añadir el elemento al cuerpo del documento
-      document.body.appendChild(clockElement);
+    // Actualizar el reloj cada segundo
+    setInterval(function () {
+      // Obtener la hora actual usando moment.js
+      const currentTime = moment().format('HH:mm:ss');
+      // Mostrar la hora actual en el elemento del reloj
+      clockElement.textContent = currentTime;
+    }, 1000); // Actualizar cada segundo
 
-      /*// Agregar evento de clic al elemento del reloj
-      clockElement.addEventListener('click', function () {
-        // Redirigir a otro index.html (cambia la URL según tus necesidades)
-        window.location.href = 'DesempeñoHora.html';
-      });*/
-
-      // Actualizar el reloj cada segundo
-      setInterval(function () {
-        // Obtener la hora actual usando moment.js
-        const currentTime = moment().format('HH:mm:ss');
-
-        // Mostrar la hora actual en el elemento del reloj
-        clockElement.textContent = currentTime;
-      }, 1000); // Actualizar cada segundo
+    // Añadir evento de clic para redirigir a una página específica
+    clockElement.addEventListener('click', function () {
+      // Redirigir a la página deseada
+      window.location.href = './DesempeñoDia.php'; // Cambia la ruta a la que necesites
     });
-  </script>
+  });
+</script>
+
   <!-- Boton iniciar-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -436,8 +389,6 @@ checkAccess([1, 2, 3]);
         });
     }
     </script>
-    
-
   <!--Obtener rango hora-->
   <script>
     window.onload = function () {
@@ -576,120 +527,15 @@ checkAccess([1, 2, 3]);
       }
     }
   </script>
-  <!--Rangos-->
-  <script>
-    // Función para obtener el porcentaje de ingresos según la opción seleccionada
-    async function obtenerPorcentajeIngresos() {
-      try {
-        let url;
-        var selectedOption = document.getElementById('selectRangoHora').value;
-
-        if (selectedOption === 'Penúltimo') {
-          url = '../PHP/VIEWS/Penultimo/view_porcentaje_penultimo.php';
-        } else if (selectedOption === 'Antepenúltimo') {
-          url = '../PHP/VIEWS/Antepenultimo/view_porcentaje_antepenultimo.php';
-        } else {
-          url = '../PHP/view_porcentaje_hora.php';
-        }
-
-        const response = await fetch(url);
-        const data = await response.json();
-        mostrarPorcentaje(data);
-      } catch (error) {
-        console.error('Error al obtener el porcentaje de ingresos:', error);
-        // Puedes mostrar un mensaje de error al usuario aquí
-      }
-    }
-
-    // Función para obtener los datos de desempeño según la opción seleccionada
-    async function obtenerDatosDesempeno() {
-      try {
-        let url;
-        var selectedOption = document.getElementById('selectRangoHora').value;
-
-        if (selectedOption === 'Penúltimo') {
-          url = '../PHP/VIEWS/Penultimo/view_desempeno_penultimo.php';
-        } else if (selectedOption === 'Antepenúltimo') {
-          url = '../PHP/VIEWS/Antepenultimo/view_desempeno_antepenultimo.php';
-        } else {
-          url = '../PHP/view_desempeno_hora.php';
-        }
-
-        const response = await fetch(url);
-        const data = await response.json();
-        mostrarDatosDesempeno(data);
-      } catch (error) {
-        console.error('Error al obtener los datos de desempeño:', error);
-        // Puedes mostrar un mensaje de error al usuario aquí
-      }
-    }
-
-    // Función para obtener los datos de bueno según la opción seleccionada
-    async function obtenerDatosBueno() {
-      try {
-        let url;
-        var selectedOption = document.getElementById('selectRangoHora').value;
-
-        if (selectedOption === 'Penúltimo') {
-          url = '../PHP/VIEWS/Penultimo/view_bueno_penultimo.php';
-        } else if (selectedOption === 'Antepenúltimo') {
-          url = '../PHP/VIEWS/Antepenultimo/view_bueno_antepenultimo.php';
-        } else {
-          url = '../PHP/view_bueno_hora.php';
-        }
-
-        const response = await fetch(url);
-        const data = await response.json();
-        mostrarDatosBueno(data);
-      } catch (error) {
-        console.error('Error al obtener los datos de bueno:', error);
-        // Puedes mostrar un mensaje de error al usuario aquí
-      }
-    }
-
-    // Función para obtener los datos de observación según la opción seleccionada
-    async function obtenerDatosObservacion() {
-      try {
-        let url;
-        var selectedOption = document.getElementById('selectRangoHora').value;
-
-        if (selectedOption === 'Penúltimo') {
-          url = '../PHP/VIEWS/Penultimo/view_observacion_penultimo.php';
-        } else if (selectedOption === 'Antepenúltimo') {
-          url = '../PHP/VIEWS/Antepenultimo/view_observacion_antepenultimo.php';
-        } else {
-          url = '../PHP/view_observacion_hora.php';
-        }
-
-        const response = await fetch(url);
-        const data = await response.json();
-        mostrarDatosObservacion(data);
-      } catch (error) {
-        console.error('Error al obtener los datos de observación:', error);
-        // Puedes mostrar un mensaje de error al usuario aquí
-      }
-    }
-
-    function seleccionarOpcion() {
-      var select = document.getElementById("selectRangoHora");
-      var selectedOption = select.options[select.selectedIndex].value;
-
-      // Llamar a las funciones correspondientes según la opción seleccionada
-      if (selectedOption === 'Penúltimo' || selectedOption === 'Antepenúltimo') {
-        obtenerPorcentajeIngresos();
-        obtenerDatosDesempeno();
-        obtenerDatosBueno();
-        obtenerDatosObservacion();
-      } else {
-        obtenerPorcentajeIngresos();
-        obtenerDatosDesempeno();
-        obtenerDatosBueno();
-        obtenerDatosObservacion();
-      }
-    }
-
-  </script>
-
+ <!-- Redirigir después de 5 minutos (300,000 milisegundos) -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Temporizador de 5 minutos para redirigir
+    setTimeout(function () {
+      window.location.href = './DesempeñoDia.php'; // Reemplaza 'nueva_pagina.php' por la URL de la página a la que deseas redirigir
+    }, 900000); // 300000 milisegundos = 5 minutos
+  });
+</script>
 
   <script src="../SCRIPTS/ScriptView.js"></script>
   <script src="../SCRIPTS/jquery-3.7.1.min.js"></script>

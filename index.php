@@ -107,7 +107,7 @@ checkAccess([1, 2, 3]);
         </script>
     </div>
     <footer class="version-tag">
-        <p>Versión 2.2.1</p>
+        <p>Versión 2.2.2</p>
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

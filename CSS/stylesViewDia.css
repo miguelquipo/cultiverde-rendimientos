@@ -1,0 +1,406 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  overflow-x: hidden; /* Evita el desbordamiento horizontal */
+  padding-top: 2%; /* Agregar un relleno en la parte superior */
+}
+
+.user{
+  width: 60px;
+}
+.logo {
+  position: absolute;
+  top: 20px;
+  right: 70px;
+  width: 130px;
+  height: auto;
+}
+
+.logout-button {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  font-size: 24px;
+  color: #333;
+  z-index: 9999;
+}
+
+.logout-button i {
+  margin: 0;
+}
+
+.logout-button:hover {
+  background-color: #ddd;
+}
+
+.logout-button:hover::after {
+  content: "Cerrar sesión";
+  position: absolute;
+  bottom: 40px;
+  right: 0;
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 9999;
+}
+
+.return-container {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+}
+
+.return-button {
+  display: block;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none; /* Eliminar subrayado */
+  color: rgb(51, 56, 210);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.return-button i {
+  font-size: 30px; /* Reducir tamaño del icono */
+  margin-bottom: 10px;
+}
+
+.return-button:hover {
+  background-color: rgba(107, 136, 131, 0.7); /* Color de fondo semi-transparente al hacer hover */
+  transform: scale(1.05); /* Aumentar tamaño al hacer hover */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap; /* Hacer que los contenedores se envuelvan cuando no hay espacio suficiente */
+  justify-content: space-around;
+  margin: 10px;
+}
+
+.settings-container {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}
+
+.settings-icon {
+  cursor: pointer;
+  position: relative;
+  display: block;
+  align-items: center;
+}
+
+.settings-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.settings-icon:hover .settings-dropdown,
+.settings-dropdown:hover {
+  display: block;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 17px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(13px);
+}
+
+.slider.round {
+  border-radius: 17px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+#startStopButton {
+  display: block;
+  position: absolute;
+  padding: 10px 20px;
+  top: 9%;
+  left: 52%;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  background-color: #4CAF50; /* Color verde cuando está iniciado */
+  transition: background-color 0.3s ease; /* Transición suave del color de fondo */
+  z-index: 1000; /* Asegura que el botón esté encima de otros elementos */
+}
+
+#startStopButton:hover {
+  background-color: #45a049; /* Cambia de tono al hacer hover */
+}
+
+#startStopButton.finished {
+  background-color: #f44336; /* Color rojo cuando está finalizado */
+}
+
+#startStopButton.finished:hover {
+  background-color: #d32f2f; /* Cambia de tono al hacer hover cuando está finalizado */
+}
+
+.clock {
+  display: block;
+  position: absolute;
+  top: 15%; /* Centrado verticalmente en la mitad de la pantalla */
+  left: 30%;
+  transform: translate(-50%, -150%);
+  font-size: 45px; /* Tamaño de la fuente más grande */
+  font-weight: bold;
+  color: #333;
+  cursor: pointer; /* Agregado un cursor de puntero al reloj */
+  z-index: 1000; /* Asegura que el botón esté encima de otros elementos */
+}
+
+#infoDiv {
+  position: absolute;
+  top: 3%;
+  left: 60%;
+  padding: 10px;
+  text-align: center;
+  font-size: 3cap;
+  z-index: 1000; /* Asegura que el div esté por encima de otros elementos */
+  opacity: 0.7;
+  font-weight: bold; /* Añade grosor al texto */
+}
+
+.outer-container {
+  display: flex;
+  justify-content: center; /* Centra el contenedor internamente */
+  padding: 0 10%; /* Añade un margen a los lados del contenedor externo */
+}
+.table-container {
+  padding: 20px;
+  width: 100%; /* Asegura que el contenedor ocupe el 100% del espacio dentro de `.outer-container` */
+  max-width: 1200px; /* Limita el ancho máximo del contenedor */
+  border: 5px solid #38990b; /* Contorno del contenedor */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(62, 219, 0, 0.1); /* Sombra para profundidad */
+  margin-top: 150px; /* Separación desde la parte superior de la vista */
+}
+
+/* Para pantallas pequeñas, asegura un margen adecuado */
+@media only screen and (max-width: 900px) {
+  .table-container {
+    width: 90%; /* Ajusta el ancho para pantallas pequeñas */
+    padding: 10px; /* Reduce el relleno */
+  }
+  .clock {
+    top: 50%; /* Centrado verticalmente en la mitad de la pantalla */
+  }
+  .logo {
+    display: none; /* Oculta el logo en dispositivos móviles */
+  }
+}
+
+/* Estilos para la tabla dentro del contenedor */
+.table-container table {
+  width: 100%; /* La tabla ocupa todo el ancho del contenedor */
+  border-collapse: collapse; /* Eliminar espacios entre celdas */
+  border-spacing: 0; /* Asegura que no haya separación entre las celdas */
+}
+
+/* Restablecer bordes en celdas, filas y encabezados */
+.table-container th, .table-container td {
+  padding: 10px; /* Espaciado interno de celdas */
+  text-align: center; /* Alineación del texto al centro */
+  border: 0; /* Eliminar cualquier borde en las celdas */
+  margin: 0; /* Eliminar márgenes */
+  box-sizing: border-box; /* Asegurar que el padding no genere desbordamiento */
+}
+
+.table-container th {
+  background-color: #f2f2f2; /* Fondo para los encabezados */
+}
+
+.table-container td {
+  background-color: #ffffff; /* Fondo blanco para las celdas, opcional */
+}
+
+/* Opcional: Quitar líneas internas de la tabla */
+.table-container tr {
+  border: none; /* Asegurar que no haya bordes en las filas */
+}
+
+
+/* Modo nocturno */
+.night-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.night-mode .switch-container {
+  color: #fff;
+}
+
+.night-mode .switch {
+  background-color: #666;
+}
+
+.night-mode .slider {
+  background-color: #fff;
+}
+
+.night-mode .slider.round {
+  border-color: #fff;
+}
+
+.night-mode .slider.round:before {
+  background-color: #fff;
+}
+
+/* Modo día */
+.day-mode {
+  background-color: #fff;
+  color: #333;
+}
+
+.night-mode, .day-mode {
+  transition: background-color 0.5s, color 0.5s; /* Transición suave para el modo nocturno y día */
+}
+
+/* Responsivo para pantallas pequeñas */
+@media only screen and (max-width: 900px) {
+  .clock {
+    position: absolute;
+    top: 10px; /* Ajusta la distancia desde la parte superior para el reloj */
+    left: 50%; /* Centra horizontalmente el reloj */
+    transform: translateX(-50%); /* Ajusta la posición horizontal del reloj */
+    width: auto;
+    margin: 10px auto; /* Agrega un margen para separar el reloj */
+  }
+
+  #startStopButton {
+    position: absolute;
+    top: 80px; /* Ajusta la distancia desde la parte superior para el botón */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .return-button {
+    font-size: 14px; /* Ajusta el tamaño del texto para pantallas pequeñas */
+    padding: 10px; /* Ajusta el relleno para pantallas pequeñas */
+  }
+
+  .settings-dropdown {
+    width: 200px; /* Ajusta el ancho de la lista desplegable para pantallas pequeñas */
+  }
+}
+/* Estilos generales para el modo claro */
+body.day-mode {
+  background-color: #fff;
+  color: #333;
+}
+
+body.day-mode .outer-container,
+body.day-mode .table-container,
+body.day-mode .content,
+body.day-mode th,
+body.day-mode td {
+  color: #333; /* Cambia el color del texto a negro en modo claro */
+}
+
+/* Estilos generales para el modo oscuro */
+body.night-mode {
+  background-color: #222;
+  color: #fff;
+}
+
+body.night-mode .outer-container,
+body.night-mode .table-container,
+body.night-mode .content,
+body.night-mode th,
+body.night-mode td {
+  color: #fff; /* Cambia el color del texto a blanco en modo oscuro */
+}
+
+/* Ajusta el color de los textos en modo oscuro */
+.night-mode .switch-container {
+  color: #fff;
+}
+
+.night-mode .switch {
+  background-color: #666;
+}
+
+.night-mode .slider {
+  background-color: #fff;
+}
+
+.night-mode .slider.round {
+  border-color: #fff;
+}
+
+.night-mode .slider.round:before {
+  background-color: #fff;
+}
+
+/* Transiciones suaves para el cambio de modo */
+body.day-mode,
+body.night-mode {
+  transition: background-color 0.5s, color 0.5s;
+}

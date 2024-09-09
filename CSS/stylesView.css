@@ -133,18 +133,7 @@ body {
   opacity: 0.7;
   font-weight: bold;
 }
-.clock {
-  display:block;
-  position: absolute;
-  top: 125px; /* Centrado verticalmente en la mitad de la pantalla */
-  left: 20%;
-  transform: translate(-50%, -150%);
-  font-size: 45px; /* Tamaño de la fuente más grande */
-  font-weight: bold;
-  color: #333;
-  cursor: pointer; /* Agregado un cursor de puntero al reloj */
-  z-index: 1000; /* Asegura que el botón esté encima de otros elementos */
-}
+
 .start-stop-button {
   display: block;
   position: absolute;
@@ -175,7 +164,18 @@ body {
 .start-stop-button.finished:hover {
   background-color: #d32f2f; /* Cambia de tono al hacer hover cuando está finalizado */
 }
-
+.clock {
+  display:block;
+  position: absolute;
+  top: 15%; /* Centrado verticalmente en la mitad de la pantalla */
+  left: 20%;
+  transform: translate(-50%, -150%);
+  font-size: 45px; /* Tamaño de la fuente más grande */
+  font-weight: bold;
+  color: #333;
+  cursor: pointer; /* Agregado un cursor de puntero al reloj */
+  z-index: 1000; /* Asegura que el botón esté encima de otros elementos */
+}
 #infoDiv {
   position: absolute;
   top: 3%;
