@@ -6,7 +6,6 @@ body {
   overflow-x: hidden; /* Evita el desbordamiento horizontal */
   padding-top: 2%; /* Agregar un relleno en la parte superior */
 }
-
 .user{
   width: 60px;
 }
@@ -231,20 +230,26 @@ input:checked + .slider:before {
 .outer-container {
   display: flex;
   justify-content: center; /* Centra el contenedor internamente */
-  padding: 0 10%; /* Añade un margen a los lados del contenedor externo */
+  padding: 0 10%; /* Ajusta el padding según tus necesidades (menor o mayor) */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho total */
 }
+
 .table-container {
   padding: 20px;
   width: 100%; /* Asegura que el contenedor ocupe el 100% del espacio dentro de `.outer-container` */
-  max-width: 1200px; /* Limita el ancho máximo del contenedor */
+  max-width: 1200px; /* Limita el ancho máximo del contenedor; ajústalo según tus necesidades */
   border: 5px solid #38990b; /* Contorno del contenedor */
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(62, 219, 0, 0.1); /* Sombra para profundidad */
   margin-top: 150px; /* Separación desde la parte superior de la vista */
 }
 
-/* Para pantallas pequeñas, asegura un margen adecuado */
+/* Ajustes para pantallas pequeñas */
 @media only screen and (max-width: 900px) {
+  .outer-container {
+    padding: 0 5%; /* Reduce el padding para pantallas más pequeñas */
+  }
+
   .table-container {
     width: 90%; /* Ajusta el ancho para pantallas pequeñas */
     padding: 10px; /* Reduce el relleno */
@@ -403,4 +408,15 @@ body.night-mode td {
 body.day-mode,
 body.night-mode {
   transition: background-color 0.5s, color 0.5s;
+}
+/* Estilos personalizados para el footer */
+footer {
+  background-color: #333; /* Color de fondo */
+  color: #fff;
+  margin-top: 20px;
+  padding: 20px 0;
+  text-align: center; /* Alineación del texto al centro */
+}
+footer p {
+  margin: 0; /* Elimina el margen del párrafo para evitar espacios adicionales */
 }

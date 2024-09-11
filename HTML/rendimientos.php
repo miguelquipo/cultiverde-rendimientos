@@ -111,11 +111,15 @@ checkAccess([1, 2]);
         <h1>Rendimientos</h1>
         <div class="form-container">
             <form id="insert-form" method="post" action="../PHP/rendimientos.php">
-                <div class="form-group">
-                    <label for="search-cedula">Número de Cédula:</label>
-                    <input type="text" id="search-cedula" name="search-cedula" minlength="10" maxlength="10" autofocus>
-                    <span id="cedula-help" style="color: red;"></span>
-                </div>
+            <div class="form-group">
+    <label for="search-cedula">Número de Cédula:</label>
+    <div style="display: flex; align-items: center;">
+        <input type="text" id="search-cedula" name="search-cedula" minlength="10" maxlength="10" autofocus>
+        <span id="nombre-persona" style="color: green; margin-left: 10px;"></span>
+    </div>
+    <span id="cedula-help" style="color: red;"></span>
+</div>
+
                 <div class="form-group">
                     <label for="search-producto">Código Producto:</label>
                     <div style="display: flex; align-items: center;">
@@ -176,282 +180,323 @@ checkAccess([1, 2]);
     <script src="../SCRIPTS/bootstrap-table.min.js"></script>
     <script src="../SCRIPTS/bootstrap-table-es-MX.min.js"></script>
     
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('Inicio del script');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('Inicio del script');
 
-    // Función para actualizar el estado de la alerta
-    function actualizarAlerta() {
-        fetch('../PHP/obtener_estado_alerta.php')
-            .then(response => response.text()) // Obtén la respuesta como texto
-            .then(text => {
-                console.log('Respuesta del servidor (texto):', text);
+        // Función para actualizar el estado de la alerta
+        function actualizarAlerta() {
+            fetch('../PHP/obtener_estado_alerta.php')
+                .then(response => response.text()) // Obtén la respuesta como texto
+                .then(text => {
+                    console.log('Respuesta del servidor (texto):', text);
 
-                try {
-                    const data = JSON.parse(text); // Intenta parsear el texto como JSON
-                    console.log('Datos recibidos del servidor:', data);
+                    try {
+                        const data = JSON.parse(text); // Intenta parsear el texto como JSON
+                        console.log('Datos recibidos del servidor:', data);
 
-                    if (data.error) {
-                        console.error('Error en la respuesta del servidor:', data.error);
-                        return;
-                    }
-
-                    const esMenorDe5Minutos = data.esMenorDe5Minutos;
-                    console.log('esMenorDe5Minutos:', esMenorDe5Minutos);
-
-                    const alertaDiv = document.getElementById('alertaDiv');
-                    console.log('alertaDiv:', alertaDiv);
-
-                    if (alertaDiv) {
-                        if (esMenorDe5Minutos) {
-                            alertaDiv.style.display = 'block';
-                            console.log('AlertaDiv mostrado');
-
-                            // Ocultar alerta después de 5 minutos si no se actualiza
-                            setTimeout(() => {
-                                alertaDiv.style.display = 'none';
-                                console.log('AlertaDiv oculto después de 5 minutos');
-                            }, 2 * 60 * 1000); // 5 minutos en milisegundos
-                        } else {
-                            alertaDiv.style.display = 'none';
-                            console.log('AlertaDiv oculto');
+                        if (data.error) {
+                            console.error('Error en la respuesta del servidor:', data.error);
+                            return;
                         }
-                    } else {
-                        console.error('No se pudo encontrar alertaDiv');
+
+                        const esMenorDe5Minutos = data.esMenorDe5Minutos;
+                        console.log('esMenorDe5Minutos:', esMenorDe5Minutos);
+
+                        const alertaDiv = document.getElementById('alertaDiv');
+                        console.log('alertaDiv:', alertaDiv);
+
+                        if (alertaDiv) {
+                            if (esMenorDe5Minutos) {
+                                alertaDiv.style.display = 'block';
+                                console.log('AlertaDiv mostrado');
+
+                                // Ocultar alerta después de 5 minutos si no se actualiza
+                                setTimeout(() => {
+                                    alertaDiv.style.display = 'none';
+                                    console.log('AlertaDiv oculto después de 5 minutos');
+                                }, 2 * 60 * 1000); // 5 minutos en milisegundos
+                            } else {
+                                alertaDiv.style.display = 'none';
+                                console.log('AlertaDiv oculto');
+                            }
+                        } else {
+                            console.error('No se pudo encontrar alertaDiv');
+                        }
+                    } catch (e) {
+                        console.error('Error al parsear la respuesta JSON:', e);
                     }
-                } catch (e) {
-                    console.error('Error al parsear la respuesta JSON:', e);
-                }
-            })
-            .catch(error => {
-                console.error('Error en la solicitud Fetch:', error);
-            });
-    }
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud Fetch:', error);
+                });
+        }
 
-    // Actualiza la alerta cuando la página se carga
-    actualizarAlerta();
+        // Actualiza la alerta cuando la página se carga
+        actualizarAlerta();
 
-    // Actualiza la alerta cada minuto
-    setInterval(actualizarAlerta, 60000); // 60 segundos en milisegundos
-});
+        // Actualiza la alerta cada minuto
+        setInterval(actualizarAlerta, 60000); // 60 segundos en milisegundos
+    });
 </script>
 
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('insert-form');
-            const cedulaInput = document.getElementById('search-cedula');
-            const productoInput = document.getElementById('search-producto');
-            const cantidadInput = document.getElementById('insert-cantidad');
-
-            cedulaInput.addEventListener('input', validarCedula);
-            productoInput.addEventListener('input', validarCodigoProducto);
-
-            cantidadInput.addEventListener('input', function () {
-                let valor = parseInt(cantidadInput.value.trim());
-                if (isNaN(valor) || valor <= 0) {
-                    cantidadInput.value = '';
-                } else {
-                    cantidadInput.value = Math.min(valor, 99); // Limitar máximo a 99
-                }
-            });
-
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-                if (cedulaInput.value.trim() !== '' && productoInput.value.trim() !== '' && cantidadInput.value.trim() !== '') {
-                    form.submit();
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Campo Vacío',
-                        text: 'Por favor, completa todos los campos antes de guardar.',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            });
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const successParam = urlParams.get('success');
-            const errorParam = urlParams.get('error');
-
-            if (successParam !== null) {
-                if (successParam === 'true') {
-                    Swal.fire({
-                        title: 'Inserción Exitosa',
-                        text: 'Los datos se han insertado correctamente.',
-                        icon: 'success',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(() => {
-                        window.location.href = 'rendimientos.php';
-                    });
-                } else if (successParam === 'false') {
-                    let errorMessage = 'Hubo un problema al insertar los datos.';
-                    if (errorParam === 'consulta_trabajador') {
-                        errorMessage = 'Error en la consulta del trabajador.';
-                    } else if (errorParam === 'no_trabajador') {
-                        errorMessage = 'No se encontró el trabajador.';
-                    } else if (errorParam === 'consulta_rango') {
-                        errorMessage = 'Error en la consulta del rango de horas.';
-                    } else if (errorParam === 'no_registro') {
-                        errorMessage = 'No se han definido rangos el día de hoy.';
-                    } else if (errorParam === 'insert_fallido') {
-                        errorMessage = 'Error al insertar el rendimiento.';
-                    }
-                    Swal.fire({
-                        title: 'Error en la Inserción',
-                        text: errorMessage,
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-                        window.location.href = 'rendimientos.php';
-                    });
-                }
-            }
-
-            obtenerDatos();
-
-            const exportarBtn = document.getElementById('exportar-btn');
-            exportarBtn.addEventListener('click', function () {
-                exportarExcel();
-            });
-        });
-
-        function validarCedula() {
-            return new Promise((resolve, reject) => {
-                const cedulaInput = document.getElementById('search-cedula');
-                const cedulaHelp = document.getElementById('cedula-help');
-                const cedulaValue = cedulaInput.value;
-
-                if (cedulaValue.length === 10) {
-                    $.ajax({
-                        url: '../PHP/NoConsultas/verificar_cedula.php',
-                        method: 'POST',
-                        data: { cedula: cedulaValue },
-                        success: function (response) {
-                            if (response.trim() === 'existe') {
-                                cedulaHelp.textContent = '';
-                                if (document.getElementById("mode-switch").checked) {
-                                    document.getElementById("search-producto").focus();
-                                }
-                                resolve(true);
-                            } else {
-                                cedulaHelp.textContent = 'No encontrado, Ingresa Uno diferente o crea un registro este número.';
-                                cedulaHelp.style.color = 'red';
-                                resolve(false);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error en la solicitud AJAX (cedula):', status, error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error en la Validación de Cédula',
-                                text: 'Hubo un problema al validar la cédula.',
-                                confirmButtonText: 'OK'
-                            });
-                            resolve(false);
-                        }
-                    });
-                } else {
-                    cedulaHelp.textContent = '';
-                    resolve(false);
-                }
-            });
-        }
-
-        // Función para obtener el nombre del producto
-        function obtenerNombreProducto(codigoProducto) {
-            return new Promise((resolve, reject) => {
-                $.ajax({
-                    url: '../PHP/NoConsultas/obtener_nombre_producto.php',
-                    method: 'POST',
-                    data: { codigoProducto: codigoProducto },
-                    success: function (response) {
-                        try {
-                            // Parsear la respuesta como JSON
-                            const data = JSON.parse(response);
-                            // Extraer el nombre del producto
-                            const nombreProducto = data.nombre || '';
-                            resolve(nombreProducto);
-                        } catch (error) {
-                            console.error('Error al procesar la respuesta JSON:', error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error en la Obtención del Nombre del Producto',
-                                text: 'Hubo un problema al procesar la respuesta del servidor.',
-                                confirmButtonText: 'OK'
-                            });
-                            resolve('');
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('Error en la solicitud AJAX (nombre producto):', status, error);
+<script>
+    // Función para obtener el nombre de la persona
+    function obtenerNombrePersona(cedula) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: '../PHP/NoConsultas/obtener_nombre_persona.php',
+                method: 'POST',
+                data: { cedula: cedula },
+                success: function (response) {
+                    try {
+                        const data = JSON.parse(response);
+                        const nombrePersona = data.nombre || '';
+                        resolve(nombrePersona);
+                    } catch (error) {
+                        console.error('Error al procesar la respuesta JSON:', error);
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error al Obtener el Nombre del Producto',
-                            text: 'Hubo un problema al obtener el nombre del producto.',
+                            title: 'Error en la Obtención del Nombre de la Persona',
+                            text: 'Hubo un problema al procesar la respuesta del servidor.',
                             confirmButtonText: 'OK'
                         });
                         resolve('');
                     }
-                });
-            });
-        }
-
-        function validarCodigoProducto() {
-            return new Promise((resolve, reject) => {
-                const codigoProductoInput = document.getElementById('search-producto');
-                const codigoProductoHelp = document.getElementById('codigo-producto-help');
-                const codigoProductoValue = codigoProductoInput.value;
-
-                if (codigoProductoValue.length === 5) {
-                    $.ajax({
-                        url: '../PHP/NoConsultas/verificar_codigo_producto.php',
-                        method: 'POST',
-                        data: { codigoProducto: codigoProductoValue },
-                        success: function (response) {
-                            if (response.trim() === 'existe') {
-                                codigoProductoHelp.textContent = '';
-                                obtenerNombreProducto(codigoProductoValue).then(nombre => {
-                                    document.getElementById('nombre-producto').textContent = nombre;
-                                    if (document.getElementById("mode-switch").checked) {
-                                        submitFormManually(); // Enviar el formulario automáticamente
-                                    }
-                                    resolve(true);
-                                });
-                            } else {
-                                codigoProductoHelp.textContent = 'Producto no encontrado.';
-                                codigoProductoHelp.style.color = 'red';
-                                resolve(false);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Error en la solicitud AJAX (producto):', status, error);
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error en la Validación del Producto',
-                                text: 'Hubo un problema al validar el código del producto.',
-                                confirmButtonText: 'OK'
-                            });
-                            resolve(false);
-                        }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error en la solicitud AJAX (nombre persona):', status, error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al Obtener el Nombre de la Persona',
+                        text: 'Hubo un problema al obtener el nombre de la persona.',
+                        confirmButtonText: 'OK'
                     });
-                } else {
-                    codigoProductoHelp.textContent = '';
-                    resolve(false);
+                    resolve('');
                 }
             });
+        });
+    }
+
+    // Función para validar el campo de cédula
+    function validarCedula() {
+        return new Promise((resolve, reject) => {
+            const cedulaInput = document.getElementById('search-cedula');
+            const cedulaHelp = document.getElementById('cedula-help');
+            const cedulaValue = cedulaInput.value;
+
+            if (cedulaValue.length === 10) {
+                $.ajax({
+                    url: '../PHP/NoConsultas/verificar_cedula.php',
+                    method: 'POST',
+                    data: { cedula: cedulaValue },
+                    success: function (response) {
+                        if (response.trim() === 'existe') {
+                            cedulaHelp.textContent = '';
+                            obtenerNombrePersona(cedulaValue).then(nombre => {
+                                document.getElementById('nombre-persona').textContent = nombre;
+                                resolve(true);
+                            });
+                        } else {
+                            cedulaHelp.textContent = 'Cédula no encontrada.';
+                            cedulaHelp.style.color = 'red';
+                            resolve(false);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error en la solicitud AJAX (cedula):', status, error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la Validación de la Cédula',
+                            text: 'Hubo un problema al validar la cédula.',
+                            confirmButtonText: 'OK'
+                        });
+                        resolve(false);
+                    }
+                });
+            } else {
+                cedulaHelp.textContent = '';
+                resolve(false);
+            }
+        });
+    }
+
+    // Función para obtener el nombre del producto
+    function obtenerNombreProducto(codigoProducto) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: '../PHP/NoConsultas/obtener_nombre_producto.php',
+                method: 'POST',
+                data: { codigoProducto: codigoProducto },
+                success: function (response) {
+                    try {
+                        const data = JSON.parse(response);
+                        const nombreProducto = data.nombre || '';
+                        resolve(nombreProducto);
+                    } catch (error) {
+                        console.error('Error al procesar la respuesta JSON:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la Obtención del Nombre del Producto',
+                            text: 'Hubo un problema al procesar la respuesta del servidor.',
+                            confirmButtonText: 'OK'
+                        });
+                        resolve('');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error en la solicitud AJAX (nombre producto):', status, error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al Obtener el Nombre del Producto',
+                        text: 'Hubo un problema al obtener el nombre del producto.',
+                        confirmButtonText: 'OK'
+                    });
+                    resolve('');
+                }
+            });
+        });
+    }
+
+    // Función para validar el código del producto
+    function validarCodigoProducto() {
+        return new Promise((resolve, reject) => {
+            const codigoProductoInput = document.getElementById('search-producto');
+            const codigoProductoHelp = document.getElementById('codigo-producto-help');
+            const codigoProductoValue = codigoProductoInput.value;
+
+            if (codigoProductoValue.length === 5) {
+                $.ajax({
+                    url: '../PHP/NoConsultas/verificar_codigo_producto.php',
+                    method: 'POST',
+                    data: { codigoProducto: codigoProductoValue },
+                    success: function (response) {
+                        if (response.trim() === 'existe') {
+                            codigoProductoHelp.textContent = '';
+                            obtenerNombreProducto(codigoProductoValue).then(nombre => {
+                                document.getElementById('nombre-producto').textContent = nombre;
+                                if (document.getElementById("mode-switch").checked) {
+                                    submitFormManually(); // Enviar el formulario automáticamente
+                                }
+                                resolve(true);
+                            });
+                        } else {
+                            codigoProductoHelp.textContent = 'Producto no encontrado.';
+                            codigoProductoHelp.style.color = 'red';
+                            resolve(false);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error en la solicitud AJAX (producto):', status, error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en la Validación del Producto',
+                            text: 'Hubo un problema al validar el código del producto.',
+                            confirmButtonText: 'OK'
+                        });
+                        resolve(false);
+                    }
+                });
+            } else {
+                codigoProductoHelp.textContent = '';
+                resolve(false);
+            }
+        });
+    }
+
+    // Función para manejar la validación de cantidad
+    function manejarValidacionCantidad() {
+        const cantidadInput = document.getElementById('insert-cantidad');
+        let valor = parseInt(cantidadInput.value.trim());
+        if (isNaN(valor) || valor <= 0) {
+            cantidadInput.value = '';
+        } else {
+            cantidadInput.value = Math.min(valor, 99); // Limitar máximo a 99
+        }
+    }
+
+    // Función para exportar los datos a Excel
+    function exportarExcel() {
+        const ws = XLSX.utils.table_to_sheet(document.getElementById('rendimientos-table'));
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Rendimientos');
+        XLSX.writeFile(wb, 'RendimientosHora.xlsx');
+    }
+
+    // Cargar al iniciar el DOM
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('insert-form');
+        const cedulaInput = document.getElementById('search-cedula');
+        const productoInput = document.getElementById('search-producto');
+        const cantidadInput = document.getElementById('insert-cantidad');
+        const exportarBtn = document.getElementById('exportar-btn');
+
+        // Listeners para validación
+        cedulaInput.addEventListener('input', validarCedula);
+        productoInput.addEventListener('input', validarCodigoProducto);
+        cantidadInput.addEventListener('input', manejarValidacionCantidad);
+
+        // Manejar envío del formulario
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            if (cedulaInput.value.trim() !== '' && productoInput.value.trim() !== '' && cantidadInput.value.trim() !== '') {
+                form.submit();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Campo Vacío',
+                    text: 'Por favor, completa todos los campos antes de guardar.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+
+        // Detectar parámetros de URL y mostrar notificaciones de éxito o error
+        const urlParams = new URLSearchParams(window.location.search);
+        const successParam = urlParams.get('success');
+        const errorParam = urlParams.get('error');
+
+        if (successParam !== null) {
+            if (successParam === 'true') {
+                Swal.fire({
+                    title: 'Inserción Exitosa',
+                    text: 'Los datos se han insertado correctamente.',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = 'rendimientos.php';
+                });
+            } else if (successParam === 'false') {
+                let errorMessage = 'Hubo un problema al insertar los datos.';
+                if (errorParam === 'consulta_trabajador') {
+                    errorMessage = 'Error en la consulta del trabajador.';
+                } else if (errorParam === 'no_trabajador') {
+                    errorMessage = 'No se encontró el trabajador.';
+                } else if (errorParam === 'consulta_rango') {
+                    errorMessage = 'Error en la consulta del rango de horas.';
+                } else if (errorParam === 'no_registro') {
+                    errorMessage = 'No se han definido rangos el día de hoy.';
+                } else if (errorParam === 'insert_fallido') {
+                    errorMessage = 'Error al insertar el rendimiento.';
+                }
+                Swal.fire({
+                    title: 'Error en la Inserción',
+                    text: errorMessage,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    window.location.href = 'rendimientos.php';
+                });
+            }
         }
 
+        // Listener para exportar Excel
+        exportarBtn.addEventListener('click', exportarExcel);
+    });
+</script>
 
-        function exportarExcel() {
-            const ws = XLSX.utils.table_to_sheet(document.getElementById('rendimientos-table'));
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Rendimientos');
-            XLSX.writeFile(wb, 'RendimientosHora.xlsx');
-        }
-    </script>
     <!--ObtenerDatos-->
     <script>
         document.addEventListener('DOMContentLoaded', async function () {

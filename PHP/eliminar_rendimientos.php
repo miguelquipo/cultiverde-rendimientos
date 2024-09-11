@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['numero-cedula']) && is
 
     if ($stmt === false) {
         // Manejar el caso de error en la eliminación
-        header("Location: ../rendimientos.php?success=false&error=eliminar_error");
+        header("Location: ../HTML/rendimientos.php?success=false&error=eliminar_error");
         exit();
     } else {
         // Redirigir con éxito
