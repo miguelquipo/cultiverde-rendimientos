@@ -115,7 +115,7 @@ checkAccess([1, 2]);
     <label for="search-cedula">Número de Cédula:</label>
     <div style="display: flex; align-items: center;">
         <input type="text" id="search-cedula" name="search-cedula" minlength="10" maxlength="10" autofocus>
-        <span id="nombre-persona" style="color: green; margin-left: 10px;"></span>
+        <span id="nombre-persona" style="color: red; margin-left: 10px;"></span>
     </div>
     <span id="cedula-help" style="color: red;"></span>
 </div>

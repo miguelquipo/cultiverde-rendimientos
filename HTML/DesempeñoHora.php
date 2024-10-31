@@ -97,23 +97,20 @@ checkAccess([1, 2, 3]);
     <button id="startStopButton" class="start-stop-button" onclick="toggleStartStop()">INICIAR</button>
 
     <div class="content">
-      <div class="level-container desempeno">
+    <div class="level-container desempeno">
         <div class="table-responsive">
-          <table id="desempeno-table">
-            <thead>
-              <tr>
-                <p class="desempeno" style="color: #05a602; font-weight: bold; font-size: 40px;">DESEMPEÑO</p>
-              </tr>
-              <tr>
-
-              </tr>
-            </thead>
-            <tbody id="desempeno-body"></tbody>
-          </table>
+            <table id="desempeno-table">
+                <thead>
+                    <tr>
+                        <p class="desempeno" style="color: #05a602; font-weight: bold; font-size: 40px;">DESEMPEÑO</p>
+                    </tr>
+                </thead>
+                <tbody id="desempeno-body"></tbody>
+            </table>
         </div>
-      </div>
+    </div>
 
-      <div class="level-container bueno">
+     <div class="level-container bueno">
         <div class="table-responsive">
           <table id="bueno-table">
             <thead>
@@ -129,44 +126,113 @@ checkAccess([1, 2, 3]);
         </div>
       </div>
 
-      <div class="level-container observacion">
+
+    <div class="level-container observacion">
         <div class="table-responsive">
-          <table id="observacion-table">
-            <thead>
-              <tr>
-                <p class="observacion" style="color: #ff2600; font-weight: bold; font-size: 40px;">OBSERVACIÓN</p>
-              </tr>
-              <tr>
-
-              </tr>
-            </thead>
-            <tbody id="observacion-body"></tbody>
-          </table>
+            <table id="observacion-table">
+                <thead>
+                    <tr>
+                        <p class="observacion" style="color: #ff2600; font-weight: bold; font-size: 40px;">OBSERVACIÓN</p>
+                    </tr>
+                </thead>
+                <tbody id="observacion-body"></tbody>
+            </table>
         </div>
-      </div>
     </div>
+</div>
 
-    <div class="settings-container">
-      <div class="settings-icon" onmouseover="showSettingsDropdown()" onmouseout="hideSettingsDropdown()">
+<div class="settings-container">
+    <div class="settings-icon" onmouseover="showSettingsDropdown()" onmouseout="hideSettingsDropdown()">
         <i class="fas fa-cog"></i>
         <div class="settings-dropdown" onmouseover="showSettingsDropdown()" onmouseout="hideSettingsDropdown()">
-
-          <div class="night-mode-switch">
-            <label class="switch">
-              <input type="checkbox" id="nightModeSwitch" onchange="toggleNightMode()">
-              <span class="slider"></span>
-            </label>
-            <span for="nightModeSwitch">Modo Nocturno</span>
-          </div><br>
+            <div class="night-mode-switch">
+                <label class="switch">
+                    <input type="checkbox" id="nightModeSwitch" onchange="toggleNightMode()">
+                    <span class="slider"></span>
+                </label>
+                <span for="nightModeSwitch">Modo Nocturno</span>
+            </div><br>
+            <div class="duration-container">
+                <label for="desempeno-duration">Duración Desempeño (s):</label>
+                <input type="number" id="desempeno-duration" value="10" min="1">
+                <label for="bueno-duration">Duración Bueno (s):</label>
+                <input type="number" id="bueno-duration" value="20" min="1">
+                <label for="observacion-duration">Duración Observación (s):</label>
+                <input type="number" id="observacion-duration" value="5" min="1">
+            </div>
         </div>
-      </div>
     </div>
+</div>
+
   </section>
   <footer>
     <div>
       <p>Copyright &copy; CULTIVERDE 2024 Derechos reservados</p>
     </div>
   </footer>
+  <script>
+    // Cargar duraciones desde localStorage o usar valores predeterminados
+    let durations = {
+        desempeno: parseInt(localStorage.getItem('desempeno-duration')) || 10,
+        bueno: parseInt(localStorage.getItem('bueno-duration')) || 20,
+        observacion: parseInt(localStorage.getItem('observacion-duration')) || 5
+    };
+
+    let currentIndex = 0;
+    const containers = document.querySelectorAll('.level-container');
+    let intervalId;
+
+    function showContainer(index) {
+        containers.forEach((container, i) => {
+            container.style.display = (i === index) ? 'block' : 'none';
+        });
+    }
+
+    function nextContainer() {
+        currentIndex = (currentIndex + 1) % containers.length;
+        showContainer(currentIndex);
+        resetInterval(); // Reinicia el intervalo al cambiar de contenedor
+    }
+
+    function resetInterval() {
+        clearInterval(intervalId); // Limpia el intervalo anterior
+        const currentClass = containers[currentIndex].classList[1];
+        const durationInMs = durations[currentClass] * 1000; // Convierte a milisegundos
+        intervalId = setInterval(nextContainer, durationInMs);
+    }
+
+    // Listeners para actualizar las duraciones desde los inputs y guardarlas en localStorage
+    document.getElementById('desempeno-duration').addEventListener('change', (e) => {
+        const value = parseInt(e.target.value) || 1;
+        durations.desempeno = value;
+        localStorage.setItem('desempeno-duration', value); // Guardar en localStorage
+        resetInterval();
+    });
+
+    document.getElementById('bueno-duration').addEventListener('change', (e) => {
+        const value = parseInt(e.target.value) || 1;
+        durations.bueno = value;
+        localStorage.setItem('bueno-duration', value); // Guardar en localStorage
+        resetInterval();
+    });
+
+    document.getElementById('observacion-duration').addEventListener('change', (e) => {
+        const value = parseInt(e.target.value) || 1;
+        durations.observacion = value;
+        localStorage.setItem('observacion-duration', value); // Guardar en localStorage
+        resetInterval();
+    });
+
+    // Inicializa los inputs con los valores de localStorage
+    document.getElementById('desempeno-duration').value = durations.desempeno;
+    document.getElementById('bueno-duration').value = durations.bueno;
+    document.getElementById('observacion-duration').value = durations.observacion;
+
+    // Inicializa el primer contenedor visible y el intervalo
+    showContainer(currentIndex);
+    resetInterval();
+</script>
+
   <!-- Mostrar desempeño-->
   <script>
     document.addEventListener('DOMContentLoaded', async function () {
@@ -203,8 +269,8 @@ checkAccess([1, 2, 3]);
         const row = document.createElement('tr');
         row.innerHTML = `
        <td><img src="${trabajador.imgen ? `../A-IMG/imgUsers/${trabajador.imgen}` : '../A-IMG/user.png'}" class="user"></td>
-        <td style="font-size:25px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
-        <td><div style="font-weight: bold;color: White;background-color: #05a602; font-size:35px; border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
+        <td style="font-size:50px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
+        <td><div style="font-weight: bold;color: White;background-color: #05a602; font-size:50px; border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
         desempenoBody.appendChild(row);
       });
     }
@@ -245,8 +311,8 @@ checkAccess([1, 2, 3]);
         const row = document.createElement('tr');
         row.innerHTML = `
         <td><img src="${trabajador.imgen ? `../A-IMG/imgUsers/${trabajador.imgen}` : '../A-IMG/user.png'}" class="user"></td>
-        <td style="font-size:25px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
-        <td><div style="background-color: rgb(51, 56, 210); font-weight: bold;color: White;font-size:35px;border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
+        <td style="font-size:50px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
+        <td><div style="background-color: rgb(51, 56, 210); font-weight: bold;color: White;font-size:50px;border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
         buenoBody.appendChild(row);
       });
     }
@@ -281,8 +347,8 @@ checkAccess([1, 2, 3]);
         const row = document.createElement('tr');
         row.innerHTML = `
         <td><img src="${trabajador.imgen ? `../A-IMG/imgUsers/${trabajador.imgen}` : '../A-IMG/user.png'}" class="user"></td>
-        <td style="font-size:25px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
-        <td><div style="background-color: #ff2600;font-weight: bold;font-size:35px; color: White;border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
+        <td style="font-size:50px;font-weight: bold;">${trabajador.nombre_apellido_alias}</td>
+        <td><div style="background-color: #ff2600;font-weight: bold;font-size:50px; color: White;border-radius: 10px;">${trabajador.porcentaje_ingresos_por_hora}%</div></td>`;
         observacionBody.appendChild(row);
       });
     }
@@ -312,6 +378,7 @@ checkAccess([1, 2, 3]);
     });
   });
 </script>
+
 
   <!-- Boton iniciar-->
   <script>
@@ -528,14 +595,37 @@ checkAccess([1, 2, 3]);
     }
   </script>
  <!-- Redirigir después de 5 minutos (300,000 milisegundos) -->
-<script>
+ <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Temporizador de 5 minutos para redirigir
-    setTimeout(function () {
-      window.location.href = './DesempeñoDia.php'; // Reemplaza 'nueva_pagina.php' por la URL de la página a la que deseas redirigir
-    }, 900000); // 300000 milisegundos = 5 minutos
+    const horarios = [7,10, 12, 14, 16, 18]; // Horarios específicos (10 AM, 12 PM, 2 PM, 4 PM, 6 PM)
+
+    // Función que comprueba si ya se redirigió en la hora actual
+    function verificarYRedirigir() {
+      const ahora = new Date();
+      const horaActual = ahora.getHours();
+      const diaActual = ahora.toDateString(); // Para asegurar que solo funcione por día
+
+      // Revisar si ya se redirigió en este horario
+      const ultimoRedirigido = localStorage.getItem('ultimoRedirigido');
+
+      if (horarios.includes(horaActual) && ultimoRedirigido !== `${diaActual}-${horaActual}`) {
+        // Guardar que ya se redirigió en este horario y día
+        localStorage.setItem('ultimoRedirigido', `${diaActual}-${horaActual}`);
+
+        // Redirigir a la página designada
+        window.location.href = './DesempeñoDia.php';
+      }
+    }
+
+    // Comprobar la hora al cargar la página
+    verificarYRedirigir();
+
+    // Volver a comprobar cada minuto (60000 ms)
+    setInterval(verificarYRedirigir, 60000);
   });
 </script>
+
+
 
   <script src="../SCRIPTS/ScriptView.js"></script>
   <script src="../SCRIPTS/jquery-3.7.1.min.js"></script>

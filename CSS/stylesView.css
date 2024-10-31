@@ -66,15 +66,16 @@ body {
   display: flex;
   flex-wrap: wrap; /* Hacer que los contenedores se envuelvan cuando no hay espacio suficiente */
   justify-content: space-around;
-  margin: 10px;
-  
+  margin: 20px;
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
 .level-container {
   text-align: center;
   margin-top: 180px;
   flex: 1;
-  min-width: 300px;
+  min-width: 200px;
   padding: 20px;
   border: 10px solid #666;
   border-radius: 20px;
@@ -118,6 +119,8 @@ body {
     flex: 100%; /* En pantallas pequeñas, ocupar todo el ancho disponible */
    
   }
+  
+
 }
 
 /* PorcentajeDiv */
@@ -191,7 +194,7 @@ body {
 @media only screen and (max-width: 900px) {
   .clock {
     position: absolute;
-    top: 10px; /* Ajusta la distancia desde la parte superior para el reloj */
+    top: 80px; /* Ajusta la distancia desde la parte superior para el reloj */
     left: 50%; /* Centra horizontalmente el reloj */
     transform: translateX(-50%); /* Ajusta la posición horizontal del reloj */
     width: auto;
@@ -200,7 +203,7 @@ body {
   
   .start-stop-button {
     position: absolute;
-    top: 80px; /* Ajusta la distancia desde la parte superior para el botón */
+    top: 150px; /* Ajusta la distancia desde la parte superior para el botón */
     left: 50%; /* Centra horizontalmente el botón */
     transform: translateX(-50%); /* Ajusta la posición horizontal del botón */
     width: auto;
@@ -208,24 +211,25 @@ body {
   }
 
   #porcentajeDiv {
-    position: absolute;
-    top: 150px; /* Ajusta la distancia desde la parte superior para porcentajeDiv */
-    left: 50%; /* Centra horizontalmente porcentajeDiv */
-    transform: translateX(-50%); /* Ajusta la posición horizontal de porcentajeDiv */
-    width: auto;
-    margin: 10px auto; /* Agrega un margen para separar porcentajeDiv */
+    display: none;
   }
 
   #infoDiv {
     position: absolute;
-    top: 270px; /* Ajusta la distancia desde la parte superior para infoDiv */
+    top: 210px; /* Ajusta la distancia desde la parte superior para infoDiv */
     left: 50%; /* Centra horizontalmente infoDiv */
     transform: translateX(-50%); /* Ajusta la posición horizontal de infoDiv */
     width: auto;
-    padding: 10px;
+
     z-index: 1000;
     opacity: 0.7;
     font-weight: bold;
+  }
+  .content {
+
+    margin-left: 0%;
+    margin-right: 0%;
+
   }
   .logo {
     display: none; /* Oculta el logo en dispositivos móviles */
@@ -479,8 +483,8 @@ th {
   }
 }
 .user {
-  width: 70px; /* Ajusta el tamaño según tus preferencias */
-  height: 70px;
+  width: 90px; /* Ajusta el tamaño según tus preferencias */
+  height: 90px;
   border-radius: 50%; /* Bordes redondos para crear una apariencia circular */
   object-fit: cover; /* Ajusta el tamaño manteniendo la proporción y recortando si es necesario */
   border: 2px solid #fff; /* Agrega un borde blanco alrededor de la imagen */

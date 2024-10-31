@@ -5,7 +5,7 @@ date_default_timezone_set('America/Chicago');
 // Conectar a la base de datos
 $serverName = "localhost\SQLEXPRESS";
 $connectionOptions = array(
-    "Database" => "dbrendimientos",
+    "Database" => "dbrendimientos11",
     "Uid" => "sa",
     "PWD" => "faber33",
     "TrustServerCertificate" => true,

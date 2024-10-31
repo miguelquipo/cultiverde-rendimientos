@@ -84,6 +84,7 @@ body {
 }
 
 .content {
+  margin-top: 20%;
   display: flex;
   flex-wrap: wrap; /* Hacer que los contenedores se envuelvan cuando no hay espacio suficiente */
   justify-content: space-around;

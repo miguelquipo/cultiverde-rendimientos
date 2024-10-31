@@ -19,8 +19,8 @@ function toggleNightMode() {
 }
 
 function toggleDayNightMode() {
-    const dayNightSwitch = document.getElementById('dayNightSwitch');
-    const isNightMode = dayNightSwitch.checked;
+    const nightModeSwitch = document.getElementById('nightModeSwitch');
+    applyDayNightMode(nightModeSwitch.checked);
 
     // Guarda el estado en localStorage
     localStorage.setItem('isNightMode', JSON.stringify(isNightMode));
