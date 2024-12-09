@@ -4,7 +4,7 @@ include 'db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['accion'])) {
     $accion = $_POST['accion'];
     $currentDateTime = new DateTime();
-    $currentDateTime->setTimezone(new DateTimeZone('America/Chicago'));
+    $currentDateTime->setTimezone(new DateTimeZone('America/Guayaquil'));
     $currentDate = $currentDateTime->format('Y-m-d');
     $currentTime = $currentDateTime->format('H:i:s');
 

@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search-cedula']) && is
     }
 
     // Obtener la fecha y hora actual una vez para usar en todos los registros
-    $insertDateTime = new DateTime("now", new DateTimeZone("America/Chicago"));
+    $insertDateTime = new DateTime("now", new DateTimeZone("America/Guayaquil"));
     $formattedDateTime = $insertDateTime->format('Y-m-d H:i:s');
 
     // Insertar los registros en la tabla rendimiento

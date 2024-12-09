@@ -173,8 +173,8 @@ checkAccess([1, 2, 3]);
   <script>
     // Cargar duraciones desde localStorage o usar valores predeterminados
     let durations = {
-        desempeno: parseInt(localStorage.getItem('desempeno-duration')) || 10,
-        bueno: parseInt(localStorage.getItem('bueno-duration')) || 20,
+        desempeno: parseInt(localStorage.getItem('desempeno-duration')) || 5,
+        bueno: parseInt(localStorage.getItem('bueno-duration')) || 5,
         observacion: parseInt(localStorage.getItem('observacion-duration')) || 5
     };
 
@@ -594,7 +594,7 @@ checkAccess([1, 2, 3]);
       }
     }
   </script>
- <!-- Redirigir después de 5 minutos (300,000 milisegundos) -->
+ <!-- Redirigir
  <script>
   document.addEventListener('DOMContentLoaded', function () {
     const horarios = [7,10, 12, 14, 16, 18]; // Horarios específicos (10 AM, 12 PM, 2 PM, 4 PM, 6 PM)
@@ -624,7 +624,7 @@ checkAccess([1, 2, 3]);
     setInterval(verificarYRedirigir, 60000);
   });
 </script>
-
+-->
 
 
   <script src="../SCRIPTS/ScriptView.js"></script>

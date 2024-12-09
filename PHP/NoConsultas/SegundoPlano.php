@@ -24,7 +24,7 @@ function conectarBaseDeDatos() {
 $intervaloEjecucion = 10; // Ajustar según sea necesario
 
 // Obtener la fecha y hora actual
-date_default_timezone_set('America/Chicago'); // Cambia a tu zona horaria
+date_default_timezone_set('America/Guayaquil'); // Cambia a tu zona horaria
 
 // Bucle para la ejecución continua en segundo plano
 while (true) {

@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['isRunning'])) {
     if ($isRunning) {
         // Obtener la fecha y hora actual
         $currentDateTime = new DateTime();
-        $currentDateTime->setTimezone(new DateTimeZone('America/Chicago')); // Cambia a tu zona horaria deseada
+        $currentDateTime->setTimezone(new DateTimeZone('America/Guayaquil')); // Cambia a tu zona horaria deseada
         $currentHour = $currentDateTime->format('H:i:s');
 
         // Verifica si ya existe un registro de id_tipo_ingreso = 3 para el día actual
