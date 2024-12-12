@@ -12,14 +12,14 @@ checkAccess([1]);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CV - Ingreso de Personal</title>
-  <link rel="icon" href="../A-IMG/logo_prueba.png">
-  <link rel="stylesheet" href="../CSS/stylesIngTrab.css">
+  <link rel="icon" href="../A-IMG/logo_prueba.png"><!--
+  <link rel="stylesheet" href="../CSS/stylesIngTrab.css">-->
   <!-- Incluye Font Awesome -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="../CSS/bootstrap-table.min.css">
-  <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+  
 <style>
   .logout-button {
     position: fixed;
@@ -57,7 +57,164 @@ checkAccess([1]);
     white-space: nowrap;
     z-index: 9999;
 }
+body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      height: 100vh;
+      overflow: auto;
+    }
 
+    .logo {
+    position: absolute;
+    top: 20px;
+    right: 100px;
+    width: 150px; /* Ajusta el ancho según tu logo */
+    height: auto; /* Para mantener la proporción */
+    }
+  .logo-fixed {
+	position: fixed;
+	top: 10px; /* Ajusta la posición fija según tus necesidades */
+	right: 10px; /* Ajusta la posición fija según tus necesidades */
+	transition: top 0.3s ease; /* Agrega una transición suave para el efecto */
+  }
+  h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.container {
+      margin-top: 100px;
+      /* Ajusta el espacio desde la parte superior */
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
+      max-width: 1150px;
+    }
+
+
+button {
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: rgba(54, 113, 103, 0.7);
+  color: #fff;
+  border:#8f2bd1;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: rgba(107, 136, 131, 0.7);
+}
+
+
+/*Return Buttom*/
+.return-container {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+}
+
+.return-button {
+  display:block;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 255, 255); /* Color de fondo semi-transparente */
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none; /* Eliminar subrayado */
+  color: rgb(51, 56, 210); 
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.return-button i {
+  font-size: 30px; /* Reducir tamaño del icono */
+  margin-bottom: 10px;
+}
+
+.return-button:hover {
+  background-color: rgba(107, 136, 131, 0.7); /* Color de fondo semi-transparente al hacer hover */
+  transform: scale(1.05); /* Aumentar tamaño al hacer hover */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.return-button:hover span {
+  backdrop-filter: none;
+  filter: none;
+}
+/* Estilos para el contenedor de la tabla */
+.table-container {
+  max-width: 1150px;
+  margin: 0 auto;
+  margin-top: 40px; /* Ajusta el espacio desde la parte superior */
+  padding: 20px; /* Agregar espacio interno al contenedor */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la tabla de rendimientos */
+#trabajadores-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#trabajadores-table th,
+#trabajadores-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+#trabajadores-table th {
+  background-color: #f2f2f2;
+}
+
+#trabajadores-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.version-tag {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	color: #303625;
+	font-size: 20px;
+  }
+  .label-file {
+    display: block;
+    background-color: rgba(54, 113, 103, 0.7);
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block; /* Para que el icono y el texto estén en la misma línea */
+  }
+
+  .label-file i {
+    margin-right: 8px; /* Ajusta el espacio entre el icono y el texto según sea necesario */
+  }
+
+  /* Ocultar el campo de entrada de archivos */
+  #imagen {
+    display: none;
+  }
+  /* Media Query para ocultar el logo en pantallas pequeñas */
+@media only screen and (max-width: 768px) {
+  .logo {
+      display: none;
+  }
+}
 </style>
 </head>
 <body>
@@ -82,16 +239,16 @@ checkAccess([1]);
       <h1>Cultiverde Personal</h1>
       <form id="personal-form" action="../PHP/insercionTrab.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario()">
         <div class="form-group">
-          <label for="nombre">Nombre:</label><br>
-          <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre" required>
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese su nombre" required>
         </div>
         <div class="form-group">
-          <label for="apellido">Apellido:</label><br>
-          <input type="text" id="apellido" name="apellido" placeholder="Ingrese su apellido" required>
+          <label for="apellido">Apellido:</label>
+          <input type="text" id="apellido" name="apellido" class="form-control" placeholder="Ingrese su apellido" required>
         </div>
         <div class="form-group">
-          <label for="cedula">Cédula:</label><br>
-          <input type="text" id="cedula" name="cedula" minlength="10" maxlength="10" placeholder="Ingrese su número de cédula" required>
+          <label for="cedula">Cédula:</label>
+          <input type="text" id="cedula" name="cedula" minlength="10" maxlength="10" class="form-control" placeholder="Ingrese su número de cédula" required>
           <small id="cedulaHelp" style="color: red;"></small>
         </div>
         <div class="form-group">

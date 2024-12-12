@@ -102,7 +102,7 @@ checkAccess([1, 2, 3]);
             <table id="desempeno-table">
                 <thead>
                     <tr>
-                        <p class="desempeno" style="color: #05a602; font-weight: bold; font-size: 40px;">DESEMPEÑO</p>
+                        <p class="desempeno" style="color: #05a602; font-weight: bold; font-size: 40px;">EXCELENCIA</p>
                     </tr>
                 </thead>
                 <tbody id="desempeno-body"></tbody>
@@ -132,7 +132,7 @@ checkAccess([1, 2, 3]);
             <table id="observacion-table">
                 <thead>
                     <tr>
-                        <p class="observacion" style="color: #ff2600; font-weight: bold; font-size: 40px;">OBSERVACIÓN</p>
+                        <p class="observacion" style="color: #ff2600; font-weight: bold; font-size: 40px;">DEFICIENTE</p>
                     </tr>
                 </thead>
                 <tbody id="observacion-body"></tbody>

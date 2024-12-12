@@ -133,7 +133,7 @@ checkAccess([1, 2]);
         <div class="form-group">
           <label for="search-producto">Código Producto:</label>
           <div style="display: flex; align-items: center;">
-            <input type="text" id="search-producto" name="search-producto" maxlength="5" style="width: 100px;">
+            <input type="text" id="search-producto" name="search-producto" class="form-control" maxlength="5" style="width: 100px;">
             <span id="nombre-producto" style="color: green; margin-left: 10px;"></span>
           </div>
           <span id="codigo-producto-help" style="color: red;"></span>
@@ -141,7 +141,7 @@ checkAccess([1, 2]);
 
         <div class="">
           <label for="insert-cantidad">Cantidad Producto:</label><br>
-          <input type="number" id="insert-cantidad" name="insert-cantidad" min="1" max="99" value="1">
+          <input type="number" id="insert-cantidad" name="insert-cantidad" class="form-control" min="1" max="99" value="1">
         </div>
         <button type="submit" class="manual-submit" id="manual-submit">Guardar</button>
       </form>
